@@ -1,0 +1,14 @@
+.DS_Store
+.idea
+.vscode
+.brackets
+/nbproject
+*.log
+*.tmp
+*.temp
+*.bak
+/log
+runtime/
+dump.rdb
+composer.lock
+!.gitignore
