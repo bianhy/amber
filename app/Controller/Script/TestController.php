@@ -10,9 +10,13 @@ define('ONLY_CLI', true);//脚本文件定义只能在命令行模式下执行
 
 class TestController extends AbstractController
 {
+    /**
+     * 测试脚本
+     * /opt/app/php-5.6.20/bin/php /opt/wwwroot/amber/app/www/index.php -c='App\Controller\Script\TestController' -a=save
+     */
     public function repair()
     {
-        $start = time();
+        $start = microtime(1);
         $list = DB::table('user')->get();
         if (!$list){
             $this->outError('无可修复的用户信息');
@@ -27,6 +31,6 @@ class TestController extends AbstractController
                 echo 'uid:'.$value['uid'].'执行失败'.PHP_EOL;
             }
         }
-        echo 'All Done . 用时：'.(time() - $start) . '秒';
+        echo 'All Done . 用时：'.(microtime(1) - $start) . '秒';
     }
 }

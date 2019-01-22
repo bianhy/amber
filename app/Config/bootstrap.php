@@ -33,7 +33,7 @@ define('IS_DEBUG', (isset($_REQUEST['debug']) && $_REQUEST['debug'] == 1) ? true
 //是否清理缓存
 define('IS_CLEAR', (isset($_REQUEST['is_clear']) && $_REQUEST['is_clear'] == 1) ? true : false);
 //REQUEST METHOD
-define('REQUEST_METHOD', $_SERVER['REQUEST_METHOD']);
+define('REQUEST_METHOD', IS_CLI ? 'GET' : $_SERVER['REQUEST_METHOD']);
 define('IS_GET', REQUEST_METHOD == 'GET' ? true : false);
 define('IS_POST', REQUEST_METHOD == 'POST' ? true : false);
 define('IS_PUT', REQUEST_METHOD == 'PUT' ? true : false);
