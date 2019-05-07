@@ -34,10 +34,11 @@ define('IS_DEBUG', (isset($_REQUEST['debug']) && $_REQUEST['debug'] == 1) ? true
 define('IS_CLEAR', (isset($_REQUEST['is_clear']) && $_REQUEST['is_clear'] == 1) ? true : false);
 //REQUEST METHOD
 define('REQUEST_METHOD', IS_CLI ? 'GET' : $_SERVER['REQUEST_METHOD']);
-define('IS_GET', REQUEST_METHOD == 'GET' ? true : false);
-define('IS_POST', REQUEST_METHOD == 'POST' ? true : false);
-define('IS_PUT', REQUEST_METHOD == 'PUT' ? true : false);
+define('IS_GET',    REQUEST_METHOD == 'GET' ? true : false);
+define('IS_POST',   REQUEST_METHOD == 'POST' ? true : false);
+define('IS_PUT',    REQUEST_METHOD == 'PUT' ? true : false);
 define('IS_DELETE', REQUEST_METHOD == 'DELETE' ? true : false);
+define('IS_AJAX',   isset($_SERVER["HTTP_X_REQUESTED_WITH"]) && strtolower($_SERVER["HTTP_X_REQUESTED_WITH"])=="xmlhttprequest");
 //是否自动关闭mysql连接
 define('MYSQL_AUTO_CLOSE', false);
 //app主目录

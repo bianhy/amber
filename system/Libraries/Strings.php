@@ -208,8 +208,14 @@ class Strings
     }
 
 
+    //含有中文
     public static function isChinese($str) {
         return preg_match("/[\x{4e00}-\x{9fa5}]+$/u",$str);
+    }
+
+    //全部中文
+    public static function allChinese($str) {
+        return preg_match("/^[\x{4e00}-\x{9fa5}]+$/u",$str);
     }
 
     public static function isPassword($str) {

@@ -26,7 +26,7 @@ class TestController extends AbstractController
             $new_name = Strings::randString(4,4);
             $ret = DB::table('user')->where(['uid'=>$value['uid']])->limit(1)->update(['nickname'=>$new_name]);
             if ($ret){
-                echo 'uid:'.$value['uid'].' :old_name:'.$old_name.'变更为：'.$new_name.PHP_EOL;
+                echo 'uid:'.$value['uid'].' :old_name:'.$old_name.' 变更为：'.$new_name.PHP_EOL;
             }else{
                 echo 'uid:'.$value['uid'].'执行失败'.PHP_EOL;
             }
