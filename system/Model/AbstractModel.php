@@ -46,29 +46,41 @@ class AbstractModel extends Model
         return $info;
     }
 
-    public function getMultipleByKeys($keys, $key_prefix, \Closure $callback, $cache, $with_key=true)
+    public function getMultipleByKeys($keys, $key_prefix, \Closure $callback, $cache, $with_key = true)
     {
-        $ret_keys = [];
+        $cache_type = 'redis';
+        $ret_keys = $info = [];
         foreach ($keys as $key) {
-            $ret_keys[] = $key_prefix.':' . $key;
+            $ret_keys[] = $key_prefix . ':' . $key;
         }
         if (!IS_CLEAR) {
             if ($cache instanceof Redis) {
+                $cache_type = 'redis';
                 $info = $cache->mget($ret_keys);
                 foreach ($info as &$val) {
                     $val = json_decode($val);
                 }
             } else {
-                $info = $cache->getMulti($ret_keys, Null ,\Memcached::GET_PRESERVE_ORDER);
+                $cache_type = 'memcache';
+                $info = $cache->getMulti($ret_keys, Null, \Memcached::GET_PRESERVE_ORDER);
             }
+            $info = array_combine($ret_keys, $info);
         }
         $ret = [];
 
         foreach ($keys as $key) {
-            if(isset($info[$key_prefix .':'. $key]) && !is_null($info[$key_prefix .':'. $key])) {
-                $tmp = $info[$key_prefix .':'. $key];
+            if (isset($info[$key_prefix . ':' . $key]) && !is_null($info[$key_prefix . ':' . $key])) {
+                $tmp = $info[$key_prefix . ':' . $key];
             } else {
-                $tmp = $callback($key);
+                if ($cache_type == 'redis') {
+                    $tmp = self::storeRedis($key_prefix . ':' . $key, function () use ($callback, $key) {
+                        return $callback($key);
+                    }, $cache);
+                } else {
+                    $tmp = self::storeMemcache($key_prefix . ':' . $key, function () use ($callback, $key) {
+                        return $callback($key);
+                    }, $cache);
+                }
             }
 
             if ($with_key) {
@@ -79,5 +91,4 @@ class AbstractModel extends Model
         }
         return $ret;
     }
-
 }
