@@ -11,8 +11,10 @@ define('ONLY_CLI', true);//脚本文件定义只能在命令行模式下执行
 class TestController extends AbstractController
 {
     /**
-     * 测试脚本
+     * 测试脚本,linux
      * /opt/app/php-5.6.20/bin/php /opt/wwwroot/amber/app/www/index.php -c='App\Controller\Script\TestController' -a=save
+     * windows:
+     * php index.php -c=App\Controller\ElasticSearchController -a=bulk
      */
     public function repair()
     {
