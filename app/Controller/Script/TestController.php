@@ -12,9 +12,9 @@ class TestController extends AbstractController
 {
     /**
      * 测试脚本,linux
-     * /opt/app/php-5.6.20/bin/php /opt/wwwroot/amber/app/www/index.php -c='App\Controller\Script\TestController' -a=save
+     * /opt/app/php-5.6.20/bin/php /opt/wwwroot/amber/app/www/index.php -c='App\Controller\Script\TestController' -a=repair
      * windows:
-     * php index.php -c=App\Controller\ElasticSearchController -a=bulk
+     * php index.php -c=App\Controller\Script\TestController -a=repair
      */
     public function repair()
     {
