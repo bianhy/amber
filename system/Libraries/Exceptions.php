@@ -39,6 +39,10 @@ class Exceptions
     }
 }
 
+class DBException extends \Exception
+{
+}
+
 class RecordException extends \Exception
 {
 }
