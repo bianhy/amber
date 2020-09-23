@@ -78,7 +78,6 @@ class Application
      */
     protected $environment;
 
-    private $muti_version = null;
 
     /**
      * @var self
@@ -101,7 +100,7 @@ class Application
         $this->script_start_time = microtime(true);
 
         if ($route) {
-            $this->dispatcher = new Dispatcher($route, $this->controller_namespace);
+            $this->dispatcher = new Dispatcher($route, $this->namespace);
         }
 
         $this->setLogger();
@@ -176,10 +175,6 @@ class Application
         $this->end_callback = $callback;
     }
 
-    public function setMutiVersion($version)
-    {
-        $this->muti_version = $version;
-    }
 
     public function run()
     {
@@ -319,50 +314,12 @@ class Application
             }
         }
 
-        if ($this->muti_version) {
-            list($controller, $method) = $this->mutiVersion($controller, $this->getMethod(), $rc->getMethods(), $this->muti_version);
-        }
 
         if (!IS_CLI && defined('ONLY_CLI')) {
             throw new \LogicException('only cli model can visit!');
         }
 
         return call_user_func_array([$controller, $method], $arguments);
-    }
-
-
-    private function mutiVersion($class_name, $method, $methods, $version)
-    {
-        $real_version = str_replace('.', '', $version);
-        if (file_exists(APP_PATH . 'Configs/multiversion.php')) {
-            require_once APP_PATH . 'Config/multiversion.php';
-            if (isset($config['multiversion'][$version])) {
-                $real_version = $config['multiversion'][$version];
-            } else {
-                foreach ($config['multiversion'] as $k => $val) {
-                    if (version_compare($version, $k) > -1) {
-                        $real_version = $val;
-                        break;
-                    }
-                }
-            }
-        }
-
-        $sames = array($method);
-        if ($real_version) {
-            foreach ($methods as $row) {
-                if ($row->class == get_class($class_name) && strpos($row->name, $method) === 0) {
-                    $method_version = intval(str_replace($method, '', $row->name));
-                    if ($method_version && $method_version <= $real_version) {
-                        $sames[] = $row->name;
-                    }
-                }
-            }
-        }
-        rsort($sames);
-        $method = array_shift($sames);
-
-        return [$class_name, $method];
     }
 
 
