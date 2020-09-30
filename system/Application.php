@@ -257,7 +257,7 @@ class Application
                 $method     = isset($opt['a']) ? $opt['a'] : null;
             }
 
-            $controller || $controller = $this->namespace.'\Controller\\'.$this->getController();
+            $controller || $controller = $this->getController();
             $method     || $method     = $this->getMethod();
             return [[$controller, $method], ['vars' => []]];
         } else {
